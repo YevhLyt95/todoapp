@@ -20,7 +20,7 @@ const ThemeToggle = () => {
     return(
         <button
             onClick={() => setIsDark(!isDark)}
-            className="mb-4 ml-auto block px-4 py-2 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded"
+            className="mb-4 ml-auto block px-4 py-2 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded hover:bg-blue-400 cursor-pointer"
         >
             {isDark ? '🌙 Dark' : '☀️ Light'}
         </button>

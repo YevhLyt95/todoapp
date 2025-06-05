@@ -1,4 +1,3 @@
-// App.jsx
 import { useEffect, useState } from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -8,21 +7,39 @@ import ThemeToggle from './components/ThemeToggle';
 const LOCAL_STORAGE_KEY = 'todo-list';
 
 const App = () => {
-  // main task list
+  // Основний список задач
   const [todos, setTodos] = useState([]);
-  // current filter: all | active | completed
+  // Поточний фільтр: all | active | completed
   const [filter, setFilter] = useState('all');
+  // Стан теми: true - темна, false - світла
+  const [darkMode, setDarkMode] = useState(false);
 
-  // loading from localStorage on start
+  // Завантаження з localStorage при старті
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (saved) setTodos(saved);
+    const savedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (savedTodos) setTodos(savedTodos);
+
+    // Завантаження теми з localStorage, якщо є
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme === 'true') setDarkMode(true);
   }, []);
 
-  // saving to local storage during every change
+  // Збереження задач у localStorage при зміні
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
+
+  // Збереження теми у localStorage та оновлення класу dark у <html>
+  useEffect(() => {
+    
+    localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
+
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   const addTodo = (text) => {
     const newTodo = {
@@ -52,9 +69,12 @@ const App = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-4 text-center">ToDo App</h1>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-4">
+      <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold text-center flex-grow">ToDo App</h1>
+          <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+        </div>
         <TodoForm onAdd={addTodo} />
         <FilterButtons currentFilter={filter} setFilter={setFilter} />
         <TodoList todos={filteredTodos} onToggle={toggleTodo} onDelete={deleteTodo} />

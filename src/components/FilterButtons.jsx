@@ -11,7 +11,7 @@ const FilterButtons = ({ currentFilter, setFilter }) => {
             currentFilter === f
               ? 'bg-blue-500 text-white'
               : 'bg-gray-200 text-gray-700'
-          }`}
+          } hover:bg-blue-200 cursor-pointer`}
         >
           {f.charAt(0).toUpperCase() + f.slice(1)}
         </button>
