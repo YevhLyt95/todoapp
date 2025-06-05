@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import FilterButtons from './components/FilterButtons';
+import ThemeToggle from './components/ThemeToggle';
 
 const LOCAL_STORAGE_KEY = 'todo-list';
 
