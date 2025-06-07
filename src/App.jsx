@@ -3,6 +3,7 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import FilterButtons from './components/FilterButtons';
 import ThemeToggle from './components/ThemeToggle';
+import { ThemeProvider } from './context/ThemeContext';
 
 const LOCAL_STORAGE_KEY = 'todo-list';
 
@@ -49,17 +50,20 @@ const App = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-4 transition-colors duration-300">
-      <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-center flex-grow">ToDo App</h1>
-          <ThemeToggle />
+    <ThemeProvider>
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-4 transition-colors duration-300">
+        <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 transition-colors duration-300">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold text-center flex-grow">ToDo App</h1>
+            <ThemeToggle />
+          </div>
+          <TodoForm onAdd={addTodo} />
+          <FilterButtons currentFilter={filter} setFilter={setFilter} />
+          <TodoList todos={filteredTodos} onToggle={toggleTodo} onDelete={deleteTodo} />
         </div>
-        <TodoForm onAdd={addTodo} />
-        <FilterButtons currentFilter={filter} setFilter={setFilter} />
-        <TodoList todos={filteredTodos} onToggle={toggleTodo} onDelete={deleteTodo} />
       </div>
-    </div>
+    </ThemeProvider>
+
   );
 };
 
